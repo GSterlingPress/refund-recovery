@@ -33,17 +33,29 @@ query RefundRecoveryScan($cursor: String) {
 
 export function normalizeShopifyOrders(payload) {
   return (payload?.data?.orders?.nodes || []).map(order => ({
-    id: order.id, name: order.name,
-    refunds: (order.refunds || []).flatMap(refund => (refund.refundLineItems?.nodes || []).map(x => ({
-      id:x.id, refundId:refund.id, lineItemId:x.lineItem?.id, title:x.lineItem?.name,
-      fulfilled:x.lineItem?.fulfillmentStatus !== "UNFULFILLED", quantity:x.quantity,
-      restocked:x.restocked, restockType:x.restockType,
-      subtotal:x.subtotalSet?.shopMoney?.amount || "0"
-    }))),
+    id: order.id,
+    name: order.name,
+    refunds: (order.refunds || []).map(refund => ({
+      id: refund.id,
+      refundLineItems: (refund.refundLineItems?.nodes || []).map(x => ({
+        lineItemId: x.lineItem?.id,
+        title: x.lineItem?.name,
+        fulfilled: x.lineItem?.fulfillmentStatus !== "UNFULFILLED",
+        quantity: x.quantity,
+        restocked: x.restocked,
+        restockType: x.restockType,
+        subtotal: x.subtotalSet?.shopMoney?.amount || "0"
+      }))
+    })),
     returns: (order.returns?.nodes || []).map(ret => ({
-      id:ret.id,status:ret.status,lineItems:(ret.returnLineItems?.nodes || []).map(x => ({
-        id:x.id,title:x.fulfillmentLineItem?.lineItem?.name,quantity:x.quantity,
-        processedQuantity:x.processedQuantity,refundedQuantity:x.refundedQuantity
+      id: ret.id,
+      status: ret.status,
+      lineItems: (ret.returnLineItems?.nodes || []).map(x => ({
+        id: x.id,
+        title: x.fulfillmentLineItem?.lineItem?.name,
+        quantity: x.quantity,
+        processedQuantity: x.processedQuantity,
+        refundedQuantity: x.refundedQuantity
       }))
     }))
   }));
