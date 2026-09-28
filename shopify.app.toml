@@ -1,0 +1,21 @@
+name = "Refund Recovery"
+client_id = "REPLACE_IN_SHOPIFY_DEV_DASHBOARD"
+application_url = "https://REPLACE_AFTER_DEPLOY"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+include_config_on_deploy = true
+
+[webhooks]
+api_version = "2026-07"
+
+[[webhooks.subscriptions]]
+topics = ["app/uninstalled", "orders/updated", "refunds/create", "returns/update"]
+uri = "/webhooks"
+
+[access_scopes]
+scopes = "read_orders,read_returns"
+
+[auth]
+redirect_urls = ["https://REPLACE_AFTER_DEPLOY/api/auth"]
