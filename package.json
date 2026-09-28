@@ -1,0 +1,1 @@
+{"name":"refund-recovery","private":true,"type":"module","scripts":{"test":"node --test tests/*.test.js","lint":"node --check src/scanner.js && node --check src/shopify-query.js"},"engines":{"node":">=20"},"dependencies":{},"devDependencies":{}}
