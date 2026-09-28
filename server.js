@@ -5,7 +5,7 @@ import { LOSS_SCAN_QUERY, normalizeShopifyOrders } from "./src/shopify-query.js"
 import { subscriptionMutation, PLANS } from "./src/billing.js";
 
 const app=express();
-const PORT=Number(process.env.PORT||3000);
+const PORT=3000;
 const API_VERSION="2026-07";
 const sessions=new Map();
 
